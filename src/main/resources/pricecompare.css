@@ -1,0 +1,12 @@
+
+.root{
+    /* This is the default Windows-font */
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10.5;
+
+}
+
+.text{
+    -fx-font-smoothing-type: lcd;
+}
+

@@ -1,0 +1,33 @@
+/************************************************
+* pricecompareactormessages.scala
+************************************************/
+//ü
+
+
+package de.jvr.pricecompare
+
+import java.nio.file.Path
+import scalafx.scene.control.{TableColumn, TableView}
+
+/* case class Ta_replace(s: String)
+case class Ta_add(s: String)
+case object TA_SCROLLTOTOP
+case object TA_SCROLLTOBOTTOM */
+
+/* case class SETWIDTH(n: Double)
+case class SETHEIGHT(n: Double)
+case class SETX(n: Double)
+case class SETY(n: Double) */
+
+/* case object SAVEGUIPARAM */
+
+/* case class Compare(x:List[String], y: Map[String, String])
+case class ReadUrl(i: Int, url: String, price: String, remark: String, mapExtractor: Map[String, String], codec: String)
+case class ReadUrlResult(i: Int, url: String, price: String, remark: String, mapExtractor: Map[String, String], result: String)
+ */
+/* case class Addrow(i: Int, row: PricecompareResultRow)
+
+case object CHECKVERSION
+case object SHUTDOWN
+case object ALERTSOUND
+ */

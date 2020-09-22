@@ -1,0 +1,22 @@
+nosound : no
+autostart : yes
+speed : yes
+test : no
+openbrowseriferror: yes
+
+akka {
+  loggers = ["akka.event.slf4j.Slf4jLogger"]
+  loglevel = "WARNING"
+
+  debug {
+    receive = off
+    autoreceive = off
+    lifecycle = off
+    fsm = off
+    event-stream = off
+    unhandled = off
+  }
+}
+
+
+

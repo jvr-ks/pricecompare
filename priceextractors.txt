@@ -1,0 +1,4 @@
+viabiona§<p class="product-price this product-price-meta pull-right text-right"><span class="price">.*?(\d+[.,]\d+)
+primaveralife§"price":"(\d+[.,]\d+)"
+satnam§<span itemprop="price" content=".*?">(\d+[.,]\d+)</span>
+jvr§class="price">.+?(\d+[.,]\d+)

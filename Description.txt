@@ -1,0 +1,8 @@
+Description
+ScalaFX programm comparing content selected by a regular expression (i.e. product-prices) on webpages with a list in a text-file
+
+Website
+https://www.jvr.de/pricecompare
+
+Sourcecode:
+https://github.com/jvr-ks/pricecompare
