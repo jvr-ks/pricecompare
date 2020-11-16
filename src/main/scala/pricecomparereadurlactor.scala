@@ -27,11 +27,11 @@ import akka.actor.{Props, Actor, ActorRef, ActorSystem, PoisonPill, Terminated, 
 import akka.actor.SupervisorStrategy._
 
 import akka.util.Timeout
-import org.log4s._
+//import org.log4s._
 import akka.pattern.{ ask, pipe }
 
 import akka.pattern.gracefulStop
-import org.log4s._
+//import org.log4s._
 
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -56,9 +56,10 @@ import scalafx.scene.image.ImageView
 import javafx.{geometry => jfxg}
 import javafx.application.Platform._
 
-import java.io.File
 
-import org.log4s._
+import better.files._
+import File._
+import java.io.{File => JFile}
 
 import de.jvr.pricecompare.Pricecompare._
 import de.jvr.pricecompare.GuiUpdateActor._
@@ -66,15 +67,13 @@ import de.jvr.pricecompare.WorkerActor._
 
 //#object ReadUrlActor ####################################################
 object ReadUrlActor {
-	def props = Props[ReadUrlActor]
+	//def props = Props[ReadUrlActor]
 	final case class ReadUrl(i: Int, url: String, price: String, remark: String, mapExtractor: Map[String, String], codec: String)
 }
 
 //#class ReadUrlActor(magicNumber: Int) ###################################
 class ReadUrlActor extends Actor{
 	import ReadUrlActor._
-	
-	private[this] val logger = getLogger
 	
 	// First set the default cookie manager.
 	java.net.CookieHandler.setDefault(new java.net.CookieManager(null, java.net.CookiePolicy.ACCEPT_ALL))
@@ -96,7 +95,7 @@ class ReadUrlActor extends Actor{
 			}
 		}
 		
-		case msg => logger.error("ReadUrlActor received unknown command: " + msg)
+		case msg => log_error("ReadUrlActor received unknown command: " + msg)
 
 	}
 }

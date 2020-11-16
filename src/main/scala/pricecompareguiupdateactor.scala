@@ -27,7 +27,7 @@ import akka.actor.{Props, Actor, ActorRef, ActorSystem, PoisonPill, Terminated, 
 import akka.actor.SupervisorStrategy._
 import scala.concurrent.duration._
 import akka.util.Timeout
-import org.log4s._
+//import org.log4s._
 
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -49,7 +49,9 @@ import scalafx.scene.input.KeyCombination
 import scalafx.scene.image.Image
 import scalafx.scene.image.ImageView
 
-import java.io._
+import better.files._
+import File._
+import java.io.{File => JFile}
 
 import java.text.SimpleDateFormat
 
@@ -57,13 +59,13 @@ import javafx.application.Platform._
 import javafx.scene.media.Media
 import javafx.scene.media.MediaPlayer
 
-import org.log4s._
+//import org.log4s._
 
 import de.jvr.pricecompare.Pricecompare._
 
 //#object GuiUpdateActor ####################################################
 object GuiUpdateActor {
-	def props = Props[GuiUpdateActor]
+	//def props = Props[GuiUpdateActor]
 	
 	final case class Ta_replace(s: String)
 	final case class Ta_add(s: String)
@@ -88,8 +90,6 @@ object GuiUpdateActor {
 //#class GuiUpdateActor ###################################
 class GuiUpdateActor extends Actor {
 	import GuiUpdateActor._
-	
-	private[this] val logger = getLogger
 	
 	def onFX(body : =>Unit) = {
 		runLater( new Runnable() {
@@ -206,7 +206,7 @@ class GuiUpdateActor extends Actor {
 		case ALERTSOUND => {
 			if(sound) {
 				try {
-					var mediaPlayer = new MediaPlayer(new Media(new File("alertsound.mp3").toURI().toString()))
+					var mediaPlayer = new MediaPlayer(new Media(new JFile("alertsound.mp3").toURI().toString()))
 					mediaPlayer.play()
 					Thread.sleep(5000)
 					mediaPlayer.stop()

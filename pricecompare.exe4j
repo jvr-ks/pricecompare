@@ -23,7 +23,7 @@
       <envVar name="JDK_HOME" />
     </searchSequence>
     <classPath>
-      <archive location="C:/___jvr_work/___workspaces/____scala/pricecompare/target/scala-2.13/Pricecompare-assembly-0.102-SNAPSHOT.jar" failOnError="true" />
+      <archive location="C:/___jvr_work/___workspaces/____scala/pricecompare/target/scala-2.13/Pricecompare-assembly-0.105-SNAPSHOT.jar" failOnError="true" />
     </classPath>
     <modulePath />
     <nativeLibraryDirectories />

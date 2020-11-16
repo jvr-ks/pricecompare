@@ -27,11 +27,11 @@ import akka.actor.{Props, Actor, ActorRef, ActorSystem, PoisonPill, Terminated, 
 import akka.actor.SupervisorStrategy._
 
 import akka.util.Timeout
-import org.log4s._
+//import org.log4s._
 import akka.pattern.{ ask, pipe }
 
 import akka.pattern.gracefulStop
-import org.log4s._
+//import org.log4s._
 
 /* import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -56,11 +56,13 @@ import scalafx.scene.image.ImageView */
 import javafx.{geometry => jfxg}
 import javafx.application.Platform._
 
-import java.io.File
+import better.files._
+import File._
+import java.io.{File => JFile}
 
-import ammonite.ops._
+//import ammonite.ops._
 
-import org.log4s._
+//import org.log4s._
 
 import de.jvr.pricecompare.Pricecompare._
 import de.jvr.pricecompare.GuiUpdateActor._
@@ -68,7 +70,7 @@ import de.jvr.pricecompare.ReadUrlActor._
 
 //#object WorkerActor ####################################################
 object WorkerActor {
-	def props = Props[WorkerActor]
+	//def props = Props[WorkerActor]
 	
 	final case class Compare(x:List[String], y: Map[String, String])
 	final case class ReadUrlResult(i: Int, url: String, price: String, remark: String, mapExtractor: Map[String, String], result: String)
@@ -77,8 +79,6 @@ object WorkerActor {
 //#class WorkerActor(magicNumber: Int) ###################################
 class WorkerActor extends Actor {
 	import WorkerActor._
-
-	private[this] val logger = getLogger
 	
 	var comparePosition = 0
 	var linecounter = 0
@@ -115,17 +115,17 @@ class WorkerActor extends Actor {
 		
 		case ReadUrlResult(i, url, price, remark, mapExtractor, result) => {
 			val html = result
-			logger.debug(url + ":\n")
-			logger.debug("First 100 characters of contents: \n" + html.substring(0, math.min(100, html.length)))
-			//logger.debug("Complete contents: \n" + html)
+			log_debug(url + ":\n")
+			log_debug("First 100 characters of contents: \n" + html.substring(0, math.min(100, html.length)))
+			//log_debug("Complete contents: \n" + html)
 			var toSearch = ""
 			val domainRex = """www\.(\w+?)\."""
 			val urlHasDomain = (domainRex.r("domainName").unanchored).findFirstMatchIn(url)
 			if (urlHasDomain.isDefined) {
 				val domain = urlHasDomain.get.group("domainName")
-				logger.debug("domain: " + domain + " \n")
+				log_debug("domain: " + domain + " \n")
 				if (url.contains(domain)) toSearch = mapExtractor(domain)
-				logger.debug("toSearch: " + toSearch + " \n")
+				log_debug("toSearch: " + toSearch + " \n")
 				val pattern = toSearch.r("webprice").unanchored
 				val result = pattern.findFirstMatchIn(html)
 				val urlfield = if (remark == "") url else url + " (" + remark + ")"
@@ -141,7 +141,12 @@ class WorkerActor extends Actor {
 					}
 				} else {
 					pricecompareGuiUpdateActor ! Addrow(i, new PricecompareResultRow((i + 1).toString, urlfield, price, "not found!", "!!!"))
-					write.append(pwd/"notfound.html", "<a href=" + urlfield + ">" + urlfield + "</a><br />\n")
+					
+					val fileName = "notfound.html"
+					val file: File = fileName.toFile
+					file.appendLine().append("<a href=" + urlfield + ">" + urlfield + "</a><br />\n")
+					
+					//write.append(pwd/"notfound.html", "<a href=" + urlfield + ">" + urlfield + "</a><br />\n")
 					pricecompareGuiUpdateActor ! ALERTSOUND
 				}
 			}

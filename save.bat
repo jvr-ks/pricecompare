@@ -1,0 +1,1 @@
+@robocopy C:\___jvr_work\___workspaces\____scala\pricecompare Z:\BA_blue2\_____SAVE\pricecompare\pricecompare0102\ /E /copy:DAT /XD target
