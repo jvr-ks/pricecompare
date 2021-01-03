@@ -68,8 +68,8 @@ test : yes -> use "pricecompare_urls_test.txt" instead of "pricecompare_urls.txt
 Graalvm20
   
 ##### Build from source:  
-* Needs exe4j a commercial Java exee converter.   
-Graalvm native is underconstruction.  
+* Needs exe4j a commercial Java jar to exe converter.   
+Graalvm native is under construction.  
 
 ##### Remarks:  
 
@@ -93,6 +93,6 @@ Copyright (c) 2019/2020 J. v.Roos
 
 
 ##### Viruscheck at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1600771586
+[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1609685069
 )  
 Use [CTRL] + Click to open in a new window! 

@@ -6,67 +6,15 @@
 package de.jvr.pricecompare
 
 
-import scala.xml._
-import scala.xml.XML
-import scala.io.Source
-import scala.util.matching._
-import scala.util.matching.Regex.Match
+//import scala.concurrent._
 
-import scala.concurrent._
-import scala.concurrent.duration._
-import ExecutionContext.Implicits.global
-
-import scala.language.postfixOps
-import scala.sys.process._ 
-import scala.collection.JavaConverters._
-
-import scala.util.{Try,Success,Failure}
-import scala.util.control.NonFatal
-
-import akka.actor.{Props, Actor, ActorRef, ActorSystem, PoisonPill, Terminated, ActorLogging }
-import akka.actor.SupervisorStrategy._
-
-import akka.util.Timeout
-//import org.log4s._
-import akka.pattern.{ ask, pipe }
-
-import akka.pattern.gracefulStop
-//import org.log4s._
-
-/* import scalafx.Includes._
-import scalafx.application.JFXApp
-import scalafx.application.JFXApp.PrimaryStage
-import scalafx.stage.Stage
-import scalafx.scene.{Scene, Group, Node}
-import scalafx.scene.shape.Rectangle
-import scalafx.scene.paint.Color 
-import scalafx.scene.control._
-import scalafx.scene.layout.{Pane, BorderPane, GridPane}
-import scalafx.scene.layout.HBox
-import scalafx.scene.layout.VBox
-import scalafx.scene.input.MouseEvent
-import scalafx.geometry.Insets
-import scalafx.event.ActionEvent
-import scalafx.scene.control.Menu
-import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.input.KeyCombination
-import scalafx.scene.image.Image
-import scalafx.scene.image.ImageView */
-
-import javafx.{geometry => jfxg}
-import javafx.application.Platform._
+import akka.actor.Actor
 
 import better.files._
-import File._
-import java.io.{File => JFile}
-
-//import ammonite.ops._
-
-//import org.log4s._
 
 import de.jvr.pricecompare.Pricecompare._
 import de.jvr.pricecompare.GuiUpdateActor._
-import de.jvr.pricecompare.ReadUrlActor._
+
 
 //#object WorkerActor ####################################################
 object WorkerActor {
@@ -104,7 +52,7 @@ class WorkerActor extends Actor {
 						if (remark.contains("cp1252")) codec = "CP1252"
 						pricecompareReadUrlActor ! ReadUrlActor.ReadUrl(i, url, price, remark, mapExtractor, codec)
 					} catch {
-						case e: Throwable => {
+						case _:Throwable => {
 							pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("Problem reading URL: " + url +"\n")
 							if (sound) pricecompareGuiUpdateActor ! ALERTSOUND
 						}

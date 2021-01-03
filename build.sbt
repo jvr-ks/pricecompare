@@ -12,9 +12,9 @@ lazy val root = (project in file("."))
 
 	mainClass in Compile := Some("de.jvr.pricecompare.Pricecompare"),
 	fork := true,
-	scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps"),
+	scalacOptions ++= Seq("-deprecation", "-feature", "-language:postfixOps","-Ywarn-unused","-Yrangepos"),
 	javaOptions += "-Dconfig.override_with_env_vars=true",
-	
+	addCompilerPlugin(scalafixSemanticdb),
 	assemblyMergeStrategy in assembly := {
 	 case PathList("META-INF", xs @ _*) => MergeStrategy.discard
 	 case x => MergeStrategy.first
@@ -30,8 +30,6 @@ lazy val root = (project in file("."))
 		"com.typesafe.akka"				%% "akka-stream"		% "latest.integration",
 		"com.typesafe.akka" 			%% "akka-testkit" 		% "latest.integration" % "test",
 		
-		"com.github.pathikrit"			%% "better-files-akka"  % "latest.integration",
-
 		"com.typesafe" 					% "config" 				% "1.4.1",
 		"org.scalafx" 					%% "scalafx" 			% "latest.integration",
 		

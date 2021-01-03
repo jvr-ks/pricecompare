@@ -7,81 +7,47 @@
 
 package de.jvr.pricecompare
 
-import sys.process._
-
-import scala.language.postfixOps
-import scala.language.implicitConversions
-import scala.language.existentials
 
 import scala.concurrent._
 import scala.concurrent.duration._
-import ExecutionContext.Implicits.global
-
-import scala.xml._
 import scala.xml.XML
 import scala.io.Source
-import scala.util.matching._
-import scala.util.matching.Regex.Match
-import scala.util.{Try,Success,Failure}
+import scala.util.Try
 import scala.util.control.NonFatal
-import scala.util.Success
-import scala.util.Failure
-import scala.util.Properties
 
-import akka.actor.{Props, ActorRef, Actor, ActorSystem}
-import akka.actor.SupervisorStrategy._
+import akka.actor.{Props, ActorSystem}
 import akka.util.Timeout
-//import akka.stream._
-//import akka.stream.scaladsl._
 
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.Scene
-import scalafx.scene.control.TableColumn._
-import scalafx.scene.control.{TableColumn, TableView}
+
 import scalafx.stage.Stage
-import scalafx.scene.{Scene, Group, Node}
-import scalafx.scene.shape.Rectangle
-import scalafx.scene.paint.Color 
+import scalafx.scene.Scene
+ 
 import scalafx.scene.control._
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.layout._
-import scalafx.scene.layout.{Pane, BorderPane, GridPane}
-import scalafx.scene.layout.HBox
-import scalafx.scene.layout.VBox
-import scalafx.scene.input.MouseEvent
-import scalafx.scene.control.TableColumn._
-import scalafx.scene.control.cell.TextFieldTableCell
-import scalafx.scene.control.{Button, TableColumn, TableView}
+import scalafx.scene.layout.GridPane
 
-import scalafx.event.ActionEvent
+import scalafx.scene.control.TableColumn._
+import scalafx.scene.control.TableView
+
 import scalafx.scene.control.Menu
 import scalafx.scene.input.KeyCombination
 import scalafx.scene.image.Image
-import scalafx.scene.image.ImageView
 
-import scalafx.geometry._
 import scalafx.geometry.Insets
-
 import scalafx.event.ActionEvent
 
-import scalafx.beans.property.ReadOnlyObjectProperty
 import scalafx.beans.property.DoubleProperty
-
-import javafx.scene.media.Media
-import javafx.scene.media.MediaPlayer
-
-import java.text.SimpleDateFormat
 
 import javafx.application.Platform._
 
 import com.typesafe.config.ConfigFactory
 
-
 import better.files._
-import File._
 import java.io.{File => JFile}
 
 import de.jvr.pricecompare.GuiUpdateActor
@@ -426,7 +392,7 @@ object Pricecompare extends JFXApp {
 	
 		readUrlFile(urlFile) match {
 			case Right(x) => {
-				readExtractorFile(x, extractorFile) match {
+				readExtractorFile(extractorFile) match {
 					case Right(y) => pricecompareWorkerActor ! WorkerActor.Compare(x, y)
 					case Left(y) => pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"\n$y \n")
 				}
@@ -491,7 +457,6 @@ object Pricecompare extends JFXApp {
 //#loadGuiConfig(system: ActorSystem, pricecompareGuiUpdateActor: akka.actor.ActorRef, progname: String, guiconfigFile: String) 
 	def loadGuiConfig(system: ActorSystem, pricecompareGuiUpdateActor: akka.actor.ActorRef, progname: String, guiconfigFile: String) = {
 		var guiConfigXML = new scala.xml.Elem(null, "root", scala.xml.Null , scala.xml.TopScope, false)
-		val fsepa = java.io.File.separator
 
 		val guiConfigFileLocal = guiconfigFile
 		if (new JFile(guiConfigFileLocal).exists) {
@@ -511,16 +476,15 @@ object Pricecompare extends JFXApp {
 //#saveGuiConfig(pricecompareGuiUpdateActor: akka.actor.ActorRef, stage: Stage, progname: String) 
 	def saveGuiConfig(pricecompareGuiUpdateActor: akka.actor.ActorRef, stage: Stage, progname: String) = {
 		var guiConfigXML = new scala.xml.Elem(null, "root", scala.xml.Null , scala.xml.TopScope, false)
-		val fsepa = java.io.File.separator
-
-		var guiConfigFile = "guiconfig.xml"
+		
+		val guiConfigFile = "guiconfig.xml"
 
 		if (new JFile(guiConfigFile).exists) {
 			guiConfigXML = Try(XML.loadFile(guiConfigFile)) getOrElse new scala.xml.Elem(null, "root", scala.xml.Null , scala.xml.TopScope, false)
 		}
 
 		val nb = new scala.xml.NodeBuffer
-		var oldchilds = guiConfigXML \\ "root" \ "_"
+		val oldchilds = guiConfigXML \\ "root" \ "_"
 
 		oldchilds foreach (n => nb += n)
 
@@ -615,16 +579,16 @@ object Pricecompare extends JFXApp {
 			if (lines.length > 0) linesUrl = Right(lines)
 		} catch {
 			case NonFatal(e) =>
-				val m = s"Problem with URL-file $urlFile !"
+				s"Problem with URL-file $urlFile !"
 				logger.error(e.toString)
 		}
 		linesUrl
 	}
 
 //#readExtractorFile #####################################################
-	def readExtractorFile(linesUrl: List[String], extractorFile: String) = {
+	def readExtractorFile(extractorFile: String) = {
 		var mapExtractor: Either[String, Map[String, String]] = Left("")
-		var sourceExtractor: Source = null
+		
 		def doit(s: Source) = s.getLines().toList.map(x => x.split("§")(0) -> x.split("§")(1)).toMap
 		try {
 			mapExtractor = Right(withResources(Source.fromFile(extractorFile, "UTF-8"))(doit))
@@ -650,6 +614,17 @@ object Pricecompare extends JFXApp {
 			}
 		}
 		lines
+	}
+//#safely #####################################################	
+	def safely[T](handler: PartialFunction[Throwable, T]): PartialFunction[Throwable, T] = {
+		case ex: scala.util.control.ControlThrowable => throw ex
+		// case ex: OutOfMemoryError (Assorted other nasty exceptions you don't want to catch)
+		
+		//If it's an exception they handle, pass it on
+		case ex: Throwable if handler.isDefinedAt(ex) => handler(ex)
+		
+		// If they didn't handle it, rethrow. This line isn't necessary, just for clarity
+		case ex: Throwable => throw ex
 	}
 
 }

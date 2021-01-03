@@ -5,55 +5,14 @@
 
 package de.jvr.pricecompare
 
-import scala.xml._
-import scala.xml.XML
 import scala.io.Source
-import scala.util.matching._
-import scala.util.matching.Regex.Match
-import scala.util.Try
-import scala.util.Success
-import scala.util.Failure
 
-import scala.concurrent._
-import scala.concurrent.duration._
-import ExecutionContext.Implicits.global
-
-import scala.language.postfixOps
-import scala.sys.process._ 
-import scala.collection.JavaConverters._
-import scala.util.Try
-
-import akka.actor.{Props, Actor, ActorRef, ActorSystem, PoisonPill, Terminated, ActorLogging }
-import akka.actor.SupervisorStrategy._
-import scala.concurrent.duration._
-import akka.util.Timeout
-//import org.log4s._
-
-import scalafx.Includes._
-import scalafx.application.JFXApp
-import scalafx.application.JFXApp.PrimaryStage
-import scalafx.stage.Stage
-import scalafx.scene.{Scene, Group, Node}
-import scalafx.scene.shape.Rectangle
-import scalafx.scene.paint.Color 
+import akka.actor.Actor
+ 
 import scalafx.scene.control._
 import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.layout.{Pane, BorderPane, GridPane}
-import scalafx.scene.layout.HBox
-import scalafx.scene.layout.VBox
-import scalafx.scene.input.MouseEvent
-import scalafx.geometry.Insets
-import scalafx.event.ActionEvent
-import scalafx.scene.control.Menu
-import scalafx.scene.input.KeyCombination
-import scalafx.scene.image.Image
-import scalafx.scene.image.ImageView
 
-import better.files._
-import File._
 import java.io.{File => JFile}
-
-import java.text.SimpleDateFormat
 
 import javafx.application.Platform._
 import javafx.scene.media.Media
@@ -130,7 +89,7 @@ class GuiUpdateActor extends Actor {
 				try {
 					val html = Source.fromURL( versionsurl ).mkString
 					
-					var toSearch = """<li>""" + prognameUpper + """ (\d*.\d*)</li>"""
+					val toSearch = """<li>""" + prognameUpper + """ (\d*.\d*)</li>"""
 					
 					val pattern = toSearch.r("onlineVersion").unanchored
 					
@@ -160,12 +119,14 @@ class GuiUpdateActor extends Actor {
 						pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_replace("Problem reading online version-info!")
 					}
 				} catch {
-					case e:Throwable => new Alert(AlertType.Error) {
-						initOwner(stage)
-						title = "Error occured"
-						headerText = "Get version info is not possible!"
-						contentText = e.toString
-					}.showAndWait()
+					safely {
+						ex: Throwable =>  new Alert(AlertType.Error) {
+							initOwner(stage)
+							title = "Error occured"
+							headerText = "Get version info is not possible!"
+							contentText = ex.toString
+						}.showAndWait()
+					}
 				}
 			})
 		}
@@ -212,7 +173,9 @@ class GuiUpdateActor extends Actor {
 					mediaPlayer.stop()
 					mediaPlayer = null
 				} catch {
-					case e:Throwable => java.awt.Toolkit.getDefaultToolkit().beep()
+					safely {
+						ex: Throwable => java.awt.Toolkit.getDefaultToolkit().beep()
+					}
 				}
 			}
 		}
