@@ -25,7 +25,7 @@ and/or:
 * "pricecompare_urls.txt" (containing URLs and prices).  
 [Download pricecompare_urls.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare_urls.txt)    
   
-* "priceextractors.txt" 
+* "priceextractors.txt"   
 [Download priceextractors.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/priceextractors.txt)  
   
 * "alertsound.mp3" (original mp3 file &copy; by Mike Koenig).    
@@ -99,11 +99,6 @@ Graalvm native is under construction.
 
 * Generates file "notfound.html" in working directory (Version 0.07s+)  
 * Nothing to install, all portable.  
-* The file "priceextractors.txt" contains the extractors regular-expressions in the format  
-  
-DOMAIN-NAME**~**REGULAR-EXPRESSION.  
-  
-* All txt-files must be UTF-8 encoded.  
 * Directory must be writable by program.  
   
 ##### Test:  
