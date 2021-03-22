@@ -16,14 +16,15 @@
       <versionLine x="20" y="40" text="version %VERSION%" fontSize="8" fontColor="0,0,0" bold="false" />
     </text>
   </splashScreen>
-  <java mainClass="de.jvr.pricecompare.Pricecompare" mainMode="1" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="13" maxVersion="" allowBetaVM="true" jdkOnly="false">
+  <java mainClass="de.jvr.pricecompare.Pricecompare" mainMode="1" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1" maxVersion="" allowBetaVM="true" jdkOnly="false">
     <searchSequence>
       <registry />
+      <envVar name="EXE4J_JAVA_HOME" />
       <envVar name="JAVA_HOME" />
       <envVar name="JDK_HOME" />
     </searchSequence>
     <classPath>
-      <archive location="C:/___jvr_work/___workspaces/____scala/pricecompare/target/scala-2.13/Pricecompare-assembly-0.105-SNAPSHOT.jar" failOnError="true" />
+      <archive location="C:/___jvr_work/___workspaces/____scala/pricecompare/target/scala-2.13/Pricecompare-assembly-0.106-SNAPSHOT.jar" failOnError="true" />
     </classPath>
     <modulePath />
     <nativeLibraryDirectories />

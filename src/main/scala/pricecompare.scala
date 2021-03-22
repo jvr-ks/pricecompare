@@ -39,7 +39,7 @@ import scalafx.scene.input.KeyCombination
 import scalafx.scene.image.Image
 
 import scalafx.geometry.Insets
-import scalafx.event.ActionEvent
+//import scalafx.event.ActionEvent
 
 import scalafx.beans.property.DoubleProperty
 
@@ -47,46 +47,27 @@ import javafx.application.Platform._
 
 import com.typesafe.config.ConfigFactory
 
+
+
 import better.files._
 import java.io.{File => JFile}
 
 import de.jvr.pricecompare.GuiUpdateActor
 import de.jvr.pricecompare.GuiUpdateActor._
+//import de.jvr.pricecompare.PricecompareLogger._
 
 
 object Pricecompare extends JFXApp {
 
-	val version = "0.105"
-	
-	val wrkDir = """C:\___jvr_work\___workspaces\____scala\pricecompare\src\main\scala\""" // used to shorten displayed lines
+	System.setProperty("file.encoding", "UTF-8")
 
-	val logger = com.typesafe.scalalogging.Logger("allfilesBetterLogger")
+	val version = "0.106"
 	
-	def log_trace(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
-		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.trace(s"\n$msg line: ${line.value} in: ${p}\n")
-	}
+	val wrkDir = """C:\___jvr_work\___workspaces\____scala\pricecompare\src\main\scala\""" // shorten displayed lines " np2 correct
 	
-	def log_debug(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
-		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.debug(s"\n$msg line: ${line.value} in: ${p}\n")
-	}
+	//val wrkDir = System.getProperty("user.dir") + JFile.separator
+	
 
-	def log_info(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
-		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.info(s"\n$msg line: ${line.value} in: ${p}\n")
-	}
-	
-	def log_warn(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
-		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.warn(s"\n$msg line: ${line.value} in: ${p}\n")
-	}
-	
-	def log_error(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
-		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.error(s"\n\n$msg line: ${line.value} in: ${p}\n\n")
-	}
-	
 	val progname = "pricecompare"
 	val prognameUpper = "Pricecompare"
 	
@@ -116,38 +97,32 @@ object Pricecompare extends JFXApp {
 	val fsepa = java.io.File.separator
 	
 	val configfile = ("""application.conf""").replace("\\","/")
-	logger.debug(s"Configfile: $configfile\n")
 	
 	val pricecompareconfig = ConfigFactory.parseFile(new java.io.File(configfile))
 	
 	if (pricecompareconfig.hasPath("nosound")){
 		if (pricecompareconfig.getString("nosound").toLowerCase.contains("yes")){
 			sound = false
-			logger.debug("Sound disabled!\n")
 		}
 	}
 	
 	if (pricecompareconfig.hasPath("autoclose")){
 		if (pricecompareconfig.getString("autoclose").toLowerCase.contains("yes")){
 			autoclose = true
-			logger.debug("Autoclose!\n")
 		}
 	}
-	
 
 	System.setProperty( "javafx.userAgentStylesheetUrl", "CASPIAN" )
 	
 	if (pricecompareconfig.hasPath("modena")){
 		if (pricecompareconfig.getString("modena").toLowerCase.contains("yes")){
 			System.setProperty( "javafx.userAgentStylesheetUrl", "MODENA" )
-			logger.debug("Stylesheet MODENA!\n")
 		}
 	}
 	
 	if (pricecompareconfig.hasPath("customcss")){
 		if (pricecompareconfig.getString("customcss").toLowerCase.contains("yes")){
 			customcss = true
-			logger.debug("Customcss!\n")
 		}
 	}
 	
@@ -162,19 +137,13 @@ object Pricecompare extends JFXApp {
 	if (pricecompareconfig.hasPath("test")){
 		if (pricecompareconfig.getString("test").toLowerCase.contains("yes")){
 			urlFile = "pricecompare_urls_test.txt"
-			logger.debug("TEST mode: Using pricecompare_urls_test.txt!\n")
 		}
 	}
 	
-	val extractorFile = "priceextractors.txt"
+	val extractorFileName = "priceextractors.txt"
 	val alertSoundFile = "alertsound.mp3"
 	val guiconfigFile = "guiconfig.xml"
 	
-	//val pathToUrlFile = FileSystems.getDefault().getPath("." + fsepa, urlFile)
-	//val pathToUrlFileExists = Files.exists(pathToUrlFile)
-	//val pathToExtractorFile = FileSystems.getDefault().getPath("." + fsepa, extractorFile)
-	//val pathToExtractorFileExists = Files.exists(pathToExtractorFile)
-
 //#gui ######################################################################
 	// scalafx.collections.ObservableBuffer
 	val rows = ObservableBuffer[PricecompareResultRow]()
@@ -249,7 +218,7 @@ object Pricecompare extends JFXApp {
 			new MenuItem {
 				text = "Start"
 				accelerator = KeyCombination.keyCombination("Alt + c")
-				onAction = (evt: ActionEvent) => {
+				onAction = (_) => {
 					running = true
 					compare()
 				}
@@ -262,13 +231,13 @@ object Pricecompare extends JFXApp {
 			new MenuItem {
 				text = "Online-Help"
 				accelerator = KeyCombination.keyCombination("Alt + h")
-				onAction = (evt: ActionEvent) => {
+				onAction = (_) => {
 					openURL( help_online_url )
 			}},
 			
 			new MenuItem {
 				text = "Check for updates"
-				onAction = (evt: ActionEvent) => {
+				onAction = (_) => {
 					pricecompareGuiUpdateActor ! GuiUpdateActor.CHECKVERSION
 	}})}
 	
@@ -277,14 +246,14 @@ object Pricecompare extends JFXApp {
 		items = Seq(
 			new MenuItem {
 				text = "Show License regarding audiofile"
-				onAction = (evt: ActionEvent) => {
+				onAction = (_) => {
 					pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_replace(Licenses.audio1)
 					pricecompareGuiUpdateActor ! GuiUpdateActor.TA_SCROLLTOTOP
 			}},
 			
 			new MenuItem {
 				text = "Show License regarding program"
-				onAction = (evt: ActionEvent) => {
+				onAction = (_) => {
 					pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_replace(Licenses.gnu)
 					pricecompareGuiUpdateActor ! GuiUpdateActor.TA_SCROLLTOTOP
 	}})}
@@ -294,7 +263,7 @@ object Pricecompare extends JFXApp {
 		items = Seq(
 			new MenuItem {
 			text = "Exit program"
-			onAction = (evt: ActionEvent) => {
+			onAction = (_) => {
 				stopAll()
 	}})}
 	
@@ -321,7 +290,7 @@ object Pricecompare extends JFXApp {
 			prefHeight = 445.0
 		}
 		
-		logger.debug(getClass().getProtectionDomain().getCodeSource().getLocation().toExternalForm)
+		//logger.debug(getClass().getProtectionDomain().getCodeSource().getLocation().toExternalForm)
 		
 		scene = new Scene() {
 			root = gp1
@@ -361,10 +330,10 @@ object Pricecompare extends JFXApp {
 	
 	//write.over(pwd/"notfound.html", "") //clear
 	
-	loadGuiConfig(system, pricecompareGuiUpdateActor, progname, guiconfigFile)
+	loadGuiConfig(system, pricecompareGuiUpdateActor, guiconfigFile)
 	
 	checkfile(urlFile)
-	checkfile(extractorFile)
+	checkfile(extractorFileName)
 	checkfile(alertSoundFile)
 	checkfile(guiconfigFile)
 	
@@ -392,7 +361,7 @@ object Pricecompare extends JFXApp {
 	
 		readUrlFile(urlFile) match {
 			case Right(x) => {
-				readExtractorFile(extractorFile) match {
+				readExtractorFile(extractorFileName) match {
 					case Right(y) => pricecompareWorkerActor ! WorkerActor.Compare(x, y)
 					case Left(y) => pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"\n$y \n")
 				}
@@ -420,7 +389,7 @@ object Pricecompare extends JFXApp {
 			if (pricecompareconfig.hasPath("openbrowseriferror")){ 
 				if (pricecompareconfig.getString("openbrowseriferror").toLowerCase.contains("yes")){
 					if ((System.getProperty("os.name").toLowerCase()).contains("win")) {
-						logger.debug("Open in browser: " + url + "\n")
+						//logger.debug("Open in browser: " + url + "\n")
 						val cmd = scala.sys.process.stringToProcess("cmd /C openbrowser.bat" + " " + url)
 						val errorstatus = cmd.!
 						if(errorstatus != 0 ) pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("\nExecuting \"openbrowser.bat\" failed!\n\n")
@@ -428,7 +397,8 @@ object Pricecompare extends JFXApp {
 				}
 			}
 		}
-/* 		
+
+/*
 //#printCODEC(pricecompareGuiUpdateActor: akka.actor.ActorRef, filename: String, t: String, codec: String, replace: Boolean = true, sendjustsaved: Boolean = true) 
 	def printCODEC(pricecompareGuiUpdateActor: akka.actor.ActorRef, filename: String, t: String, codec: String, replace: Boolean = true, sendjustsaved: Boolean = true):Boolean = {
 
@@ -445,7 +415,7 @@ object Pricecompare extends JFXApp {
 			}
 			r = withResources(buffer)(ow)
 		} catch {
-			case NonFatal(e) => {
+			case NonFatal(e@_) => {
 				r = false
 				val m = s"Cannot save the file $filename: " + e.toString
 				pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("\n" + m + "\n")
@@ -454,8 +424,8 @@ object Pricecompare extends JFXApp {
 		r
 	}
  */	
-//#loadGuiConfig(system: ActorSystem, pricecompareGuiUpdateActor: akka.actor.ActorRef, progname: String, guiconfigFile: String) 
-	def loadGuiConfig(system: ActorSystem, pricecompareGuiUpdateActor: akka.actor.ActorRef, progname: String, guiconfigFile: String) = {
+ 
+	def loadGuiConfig(system: ActorSystem, pricecompareGuiUpdateActor: akka.actor.ActorRef, guiconfigFile: String) = {
 		var guiConfigXML = new scala.xml.Elem(null, "root", scala.xml.Null , scala.xml.TopScope, false)
 
 		val guiConfigFileLocal = guiconfigFile
@@ -474,7 +444,7 @@ object Pricecompare extends JFXApp {
 	}
 
 //#saveGuiConfig(pricecompareGuiUpdateActor: akka.actor.ActorRef, stage: Stage, progname: String) 
-	def saveGuiConfig(pricecompareGuiUpdateActor: akka.actor.ActorRef, stage: Stage, progname: String) = {
+	def saveGuiConfig(stage: Stage) = {
 		var guiConfigXML = new scala.xml.Elem(null, "root", scala.xml.Null , scala.xml.TopScope, false)
 		
 		val guiConfigFile = "guiconfig.xml"
@@ -524,7 +494,6 @@ object Pricecompare extends JFXApp {
 		} catch {
 			case _:Throwable => {
 					pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("\nError opening browser!\n")
-					logger.warn("Error opening browser!\n")
 				}
 		}
 		""
@@ -539,7 +508,7 @@ object Pricecompare extends JFXApp {
 		try {
 			f(resource)
 		} catch {
-			case NonFatal(e) =>
+			case NonFatal(e@_) =>
 			exception = e
 			throw e
 		} finally {
@@ -578,43 +547,73 @@ object Pricecompare extends JFXApp {
 			lines = withResources(Source.fromFile(urlFile, "UTF-8"))(gl)
 			if (lines.length > 0) linesUrl = Right(lines)
 		} catch {
-			case NonFatal(e) =>
+			case NonFatal(e@_) =>
 				s"Problem with URL-file $urlFile !"
-				logger.error(e.toString)
+				//logger.error(e.toString)
 		}
 		linesUrl
 	}
 
-//#readExtractorFile #####################################################
-	def readExtractorFile(extractorFile: String) = {
-		var mapExtractor: Either[String, Map[String, String]] = Left("")
+//----------------------------- readExtractorFile -----------------------------
+	def readExtractorFile(extractorFileName: String) = {
+		var mapExtractor: Either[String, Map[String, String]] = Left("Error in readExtractorFile() subroutine!")
 		
-		def doit(s: Source) = s.getLines().toList.map(x => x.split("§")(0) -> x.split("§")(1)).toMap
 		try {
-			mapExtractor = Right(withResources(Source.fromFile(extractorFile, "UTF-8"))(doit))
+			val m = extractorFileName.toFile.lineIterator.filter(_ != "").filter(_.contains("~")).toList.map(x => x.split("~")(0) -> x.split("~")(1)).toMap
+			mapExtractor = Right(m)
 		} catch {
-			case NonFatal(e) =>
-				val m = s"Problem with Extractor-file $extractorFile !"
-				pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("\n" + m + "\n")
-				logger.error(e.toString)
+			case NonFatal(e@_) =>
+				val msg = s"Problem with Extractor-file $extractorFileName: " + e
+				mapExtractor = Left(msg)
 		}
+		
+/*
+		mapExtractor match {
+			case Right(x) => {
+				for ((key, value) <- x) {
+					println(s"$key -> $value")
+					pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"$key -> $value \n")
+				}
+			}
+			
+			case Left(y) => {
+				pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"$y \n")
+			}
+		}
+*/
 		mapExtractor
 	}
-	
-//#readURLToList #####################################################
-	def readURLToList(url: String, i: Int, codec: String = "UTF-8") = {
-		var lines = List.empty[String]
+
+//------------------------------- readURLToList -------------------------------
+/*
+	def readURL(url: String, i: Int, c: String) = {
+		var content = List.empty[String]
+		try {
+			implicit val codec = c
+			content = url.toFile.lineIterator.filter(_ != "").toList
+		} catch {
+			case NonFatal(e@_) => {
+				pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"Nr.: ${i + 1}: Cannot open the URL $url error is:\n" + e.toString + "\n\n")
+			}
+		}
+		content
+	}
+*/
+
+	def readURL(url: String, i: Int, codec: String) = {
+		var lines = List("")
 		def gl(s: Source) = s.getLines().toList
 		try {
 			lines = withResources(Source.fromURL(url, codec))(gl)
 		} catch {
-			case NonFatal(e) => {
+			case NonFatal(e@_) => {
 				pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add(s"Nr.: ${i + 1}: Cannot open the URL $url error is:\n" + e.toString + "\n\n")
-				logger.debug(e.toString)
+				//logger.debug(e.toString)
 			}
 		}
 		lines
 	}
+
 //#safely #####################################################	
 	def safely[T](handler: PartialFunction[Throwable, T]): PartialFunction[Throwable, T] = {
 		case ex: scala.util.control.ControlThrowable => throw ex

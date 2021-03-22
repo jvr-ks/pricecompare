@@ -132,7 +132,7 @@ class GuiUpdateActor extends Actor {
 		}
 
 		case SAVEGUIPARAM => {
-			saveGuiConfig(pricecompareGuiUpdateActor, stage, progname)
+			saveGuiConfig(stage)
 		}
 
 

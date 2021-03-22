@@ -1,1 +1,12 @@
-https://www.jvr.de/pricecompare/pricetest.txt 39,90 Format is: URL Price
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest.txt 39,95 Should be "changed i.e. OK = !!!"
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest_no_price.txt 39,90 Should be "not found!"
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest_not_existent.txt 39,90 Should be "not found!" + errormessage
+https://www.jvr.de/pricecompare/pricetest_codec.html 39,90 Should be "not found!" + errormessage
+https://www.jvr.de/pricecompare/pricetest_codec.html 39,90 cp1252 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 Should be "ok"
+https://www.jvr.de/pricecompare/pricetest.txt 39,90 END!
+https://www.viabiona.com/de/themen/zellverjuengung/alpha-liponsaeure.html 29,95

@@ -9,7 +9,7 @@
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>pricecompare.log</file>
-		<append>true</append>
+		<append>false</append>
 		<encoder>
 			<pattern>%msg%n</pattern>
 		</encoder>

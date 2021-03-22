@@ -1,0 +1,42 @@
+/************************************************
+* pricecomparelogger.scala
+*
+* License GNU GENERAL PUBLIC LICENSE see License.txt
+************************************************/
+// ü
+
+package de.jvr.pricecompare
+
+import ch.qos.logback.classic._
+
+
+object PricecompareLogger {
+
+	val logger = com.typesafe.scalalogging.Logger("PricecompareLogger")
+	
+	def log_trace(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
+		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
+		logger.trace(s"\n$msg line: ${line.value} in: ${p}\n")
+	}
+	
+	def log_debug(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
+		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
+		logger.debug(s"\n$msg line: ${line.value} in: ${p}\n")
+	}
+
+	def log_info(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
+		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
+		logger.info(s"\n$msg line: ${line.value} in: ${p}\n")
+	}
+	
+	def log_warn(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
+		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
+		logger.warn(s"\n$msg line: ${line.value} in: ${p}\n")
+	}
+	
+	def log_error(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
+		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
+		logger.error(s"\n\n$msg line: ${line.value} in: ${p}\n\n")
+	}
+	
+}

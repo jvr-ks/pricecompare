@@ -34,7 +34,8 @@ class WorkerActor extends Actor {
 	def receive = {
 		
 		case Compare(linesUrl: List[String], mapExtractor: Map[String, String]) => {
-			pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_replace("Comparing, takes a while, please be patient... \n")
+			//pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_replace("Comparing, takes a while, please be patient... \n")
+			pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("Comparing, takes a while, please be patient... \n")
 			
 			var url = ""
 			for (i <- comparePosition until linesUrl.length){
@@ -63,17 +64,17 @@ class WorkerActor extends Actor {
 		
 		case ReadUrlResult(i, url, price, remark, mapExtractor, result) => {
 			val html = result
-			log_debug(url + ":\n")
-			log_debug("First 100 characters of contents: \n" + html.substring(0, math.min(100, html.length)))
+			//log_debug(url + ":\n")
+			//log_debug("First 100 characters of contents: \n" + html.substring(0, math.min(100, html.length)))
 			//log_debug("Complete contents: \n" + html)
 			var toSearch = ""
 			val domainRex = """www\.(\w+?)\."""
 			val urlHasDomain = (domainRex.r("domainName").unanchored).findFirstMatchIn(url)
 			if (urlHasDomain.isDefined) {
 				val domain = urlHasDomain.get.group("domainName")
-				log_debug("domain: " + domain + " \n")
+				//log_debug("domain: " + domain + " \n")
 				if (url.contains(domain)) toSearch = mapExtractor(domain)
-				log_debug("toSearch: " + toSearch + " \n")
+				//log_debug("toSearch: " + toSearch + " \n")
 				val pattern = toSearch.r("webprice").unanchored
 				val result = pattern.findFirstMatchIn(html)
 				val urlfield = if (remark == "") url else url + " (" + remark + ")"
@@ -94,15 +95,14 @@ class WorkerActor extends Actor {
 					val file: File = fileName.toFile
 					file.appendLine().append("<a href=" + urlfield + ">" + urlfield + "</a><br />\n")
 					
-					//write.append(pwd/"notfound.html", "<a href=" + urlfield + ">" + urlfield + "</a><br />\n")
-					pricecompareGuiUpdateActor ! ALERTSOUND
+					if (sound) pricecompareGuiUpdateActor ! ALERTSOUND
 				}
 			}
 		}
 
 		case e: akka.actor.Status.Failure => pricecompareGuiUpdateActor ! GuiUpdateActor.Ta_add("Error: "+ e.toString)
 		
-		case _ => logger.error("WorkerActor received unknown command!")
+		case _ => //logger.error("WorkerActor received unknown command!")
 
 	}
 	
