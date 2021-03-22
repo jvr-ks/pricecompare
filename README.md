@@ -63,23 +63,26 @@ from 0.095:
 has the following configuration parameters:  
   
 * nosound : no  
-* autostart : yes  
-* speed : yes  
-* test : no  
-* openbrowseriferror : no  
+disable sound.  
 
-if entry  
-test : yes  
-the file "pricecompare_urls_test.txt" is used instead of "pricecompare_urls.txt"  
+* autostart : yes  
+Starts comparing immediately.  
+
+* speed : yes  
+Opens URLs faster (asynchron). 
+
+* test : no   
+if entry "yes"the file "pricecompare_urls_test.txt" is used instead of "pricecompare_urls.txt"   
+
+* openbrowseriferror : no  
+Opens browser-tabs with changed product pages via openbrowser.bat (not on linux).  
+ 
+* modena : yes 
+Use Modena theme (use CASPIAN theme otherwise).  
   
-##### Startparam:  
-* "autostart" Starts comparing immediately.  
-* "openbrowser" Opens browser-tabs with changed product pages via openbrowser.bat (not on linux).  
-* "modena" Modena theme (default ist CASPIAN).  
-* "customcss" Custom theme modifications in "pricecompare.css"    
-* "test" takes "pricecompare_urls_test.txt" instead of pricecompare_urls.txt".  
-* "nosound".  
-* "speed" Only changed entries are shown in the list, opens URLs faster.  
+* customcss : no  
+Custom theme modifications in "pricecompare.css"    
+
   
 ##### Linux:  
 * not tested at the moment ...  
@@ -114,6 +117,6 @@ Copyright (c) 2019/2020/2021 J. v.Roos
 
 
 ##### Viruscheck at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1616377258
+[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1616379341
 )  
 Use [CTRL] + Click to open in a new window! 
