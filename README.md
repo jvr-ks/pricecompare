@@ -43,7 +43,7 @@ All files are UTF-8 (no BOM)
 contains 3 parts on every line splitted by a **blank**.  
  
 * The URL.  
-* The price  
+* The price.  
 * The rest of the line is a remark field.  
 * * The remark field can contain codec-information, if other than "UTF8" i.e. "cp1252".  
   
