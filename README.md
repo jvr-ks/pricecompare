@@ -1,71 +1,85 @@
 # Pricecompare  
-ScalaFX programm comparing content selected by a regular expression (i.e. product-prices) on webpages with a list in a text-file:  
-  
-"pricecompare_urls.txt" (UTF-8).    
+ScalaFX programm comparing content selected by a regular expression (i.e. product-prices) on webpages with a list in a text-file.  
   
 ##### Status  
 usable.  
 
 ##### Requirements  
-Java runtime >= Java 8  
+Java runtime = Java 8  
 
-##### Special Files  
+##### Files required in running directory
+All files are UTF-8 (no BOM)  
   
 * "pricecompare.exe" (Windows Startfile, portable, no installlation).  
-[Download from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare.exe)  
+[Download pricecompare.exe from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare.exe)   
 Viruscheck see below.  
 * "openbrowser.bat" (Windows only, batch to open browser, example content   
+[Download openbrowser.bat from github](https://github.com/jvr-ks/pricecompare/raw/master/openbrowser.bat)   
 * "application.conf" optional configuration file (HOCON).
-  
-##### Required files in running directory:  
-* "pricecompare.exe",  
+[Download application.conf from github](https://github.com/jvr-ks/pricecompare/raw/master/application.conf)   
+   
+If you don't have your own file already:   
+* "pricecompare_urls_test.txt" (containing URLs and prices).  
+[Download pricecompare_urls_test.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare_urls_test.txt)  
+and/or:  
 * "pricecompare_urls.txt" (containing URLs and prices).  
+[Download pricecompare_urls.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare_urls.txt)    
+  
+* "priceextractors.txt" 
+[Download priceextractors.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/priceextractors.txt)  
+  
+* "alertsound.mp3" (original mp3 file &copy; by Mike Koenig). 
+[Download alertsound.mp3 from github](https://github.com/jvr-ks/pricecompare/raw/master/alertsound.mp3)  
+   
+* "pricecompare.jar" to start on Windows/Linux via Java (without Pricecompare*.exe), "run.sh", "run.bat".  
+[Download pricecompare.jar from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare.jar)  
+  
+* "guiconfig.xml" created if not present, containing position and size [XML-format]. 
 
-included is the file "pricecompare_urls.test.txt" rename it to "pricecompare_urls.txt" if you don't have your own file already.  
-  
-* "priceextractors.txt" contains 3 parts on every line splitted by a blank.  
-  
+##### File format:  
+All files are UTF-8 (no BOM)  
+
+"priceextractors.txt"   
+contains 3 parts on every line splitted by a blank.  
+ 
 * * The URL.  
-  
 * * The extractors regular expression.  
-  
 * * The rest of the line is a remark field.  
-  
 * * * The remark field can contain codec-information, if other than "UTF8" i.e. "cp1252".  
-  
-* "guiconfig.xml" created if not present, containing position and size [XML-format].  
-* "alertsound.mp3" (original mp3 file &copy; by Mike Koenig).  
-* "pricecompare.jar" to start on Windows/Linux via Java (without  Pricecompare*.exe), "run.sh", "run.bat".  
+
   
 ##### Config file:  
   
 from 0.095:  
 * "application.conf" is in running directory (not in .../user.home/...)  
   
-has the follwing configuration parameters:  
+has the following configuration parameters:  
   
 * nosound : no  
 * autostart : yes  
 * speed : yes  
 * test : no  
-* openbrowseriferror : yes  
-  
-test : yes -> use "pricecompare_urls_test.txt" instead of "pricecompare_urls.txt"  
+* openbrowseriferror : no  
+
+if entry  
+test : yes  
+the file "pricecompare_urls_test.txt" is used instead of "pricecompare_urls.txt"  
   
 ##### Startparam:  
 * "autostart" Starts comparing immediately.  
 * "openbrowser" Opens browser-tabs with changed product pages via openbrowser.bat (not on linux).  
 * "modena" Modena theme (default ist CASPIAN).  
-* "customcss" Custom theme Modifications.  
+* "customcss" Custom theme modifications in "pricecompare.css"    
 * "test" takes "pricecompare_urls_test.txt" instead of pricecompare_urls.txt".  
 * "nosound".  
-* "speed" Only changed entries are shown in the list, opens URLs faster (asynchron).  
+* "speed" Only changed entries are shown in the list, opens URLs faster.  
   
 ##### Linux:  
-* not supported at the moment ...  
+* not tested at the moment ...  
 
-##### JDK:  
-Graalvm20
+##### JDK: 
+Java 8, Java 11 not tested 
+
   
 ##### Build from source:  
 * Needs exe4j a commercial Java jar to exe converter.   
@@ -77,7 +91,7 @@ Graalvm native is under construction.
 * Nothing to install, all portable.  
 * The file "priceextractors.txt" contains the extractors regular-expressions in the format  
   
-DOMAIN-NAME**&sect;**REGULAR-EXPRESSION.  
+DOMAIN-NAME**~**REGULAR-EXPRESSION.  
   
 * All txt-files must be UTF-8 encoded.  
 * Directory must be writable by program.  
@@ -86,13 +100,13 @@ DOMAIN-NAME**&sect;**REGULAR-EXPRESSION.
 * [Testfile on server](https://www.jvr.de/pricecompare/pricetest.txt)  
   
 ###### License: MIT, -> MIT_License.txt  
-Copyright (c) 2019/2020 J. v.Roos  
+Copyright (c) 2019/2020/2021 J. v.Roos  
 
 
 
 
 
 ##### Viruscheck at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1609685069
+[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1616377258
 )  
 Use [CTRL] + Click to open in a new window! 
