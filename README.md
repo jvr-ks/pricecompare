@@ -15,10 +15,10 @@ All files are UTF-8 (no BOM)
 Viruscheck see below.  
 * "openbrowser.bat" (Windows only, batch to open browser, example content   
 [Download openbrowser.bat from github](https://github.com/jvr-ks/pricecompare/raw/master/openbrowser.bat)   
-* "application.conf" optional configuration file (HOCON).
-[Download application.conf from github](https://github.com/jvr-ks/pricecompare/raw/master/application.conf)   
+* "application.conf" optional configuration file (HOCON).  
+[Download application.conf from github](https://github.com/jvr-ks/pricecompare/raw/master/application.conf)    
    
-If you don't have your own file already:   
+If you don't have your own file(s) already:   
 * "pricecompare_urls_test.txt" (containing URLs and prices).  
 [Download pricecompare_urls_test.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare_urls_test.txt)  
 and/or:  
@@ -28,10 +28,10 @@ and/or:
 * "priceextractors.txt" 
 [Download priceextractors.txt from github](https://github.com/jvr-ks/pricecompare/raw/master/priceextractors.txt)  
   
-* "alertsound.mp3" (original mp3 file &copy; by Mike Koenig). 
+* "alertsound.mp3" (original mp3 file &copy; by Mike Koenig).    
 [Download alertsound.mp3 from github](https://github.com/jvr-ks/pricecompare/raw/master/alertsound.mp3)  
    
-* "pricecompare.jar" to start on Windows/Linux via Java (without Pricecompare*.exe), "run.sh", "run.bat".  
+* "pricecompare.jar" to start on Windows/Linux via Java (without Pricecompare*.exe), "run.sh", "run.bat".   
 [Download pricecompare.jar from github](https://github.com/jvr-ks/pricecompare/raw/master/pricecompare.jar)  
   
 * "guiconfig.xml" created if not present, containing position and size [XML-format]. 
@@ -39,15 +39,22 @@ and/or:
 ##### File format:  
 All files are UTF-8 (no BOM)  
 
-"priceextractors.txt"   
-contains 3 parts on every line splitted by a blank.  
+"pricecompare_urls.txt":  
+contains 3 parts on every line splitted by a **blank**.  
  
-* * The URL.  
-* * The extractors regular expression.  
-* * The rest of the line is a remark field.  
-* * * The remark field can contain codec-information, if other than "UTF8" i.e. "cp1252".  
-
+* The URL.  
+* The price  
+* The rest of the line is a remark field.  
+* * The remark field can contain codec-information, if other than "UTF8" i.e. "cp1252".  
   
+"priceextractors.txt":  
+contains 2 parts on every line splitted by a "~".  
+  
+* The domain-name.
+* The extractors regular expression. 
+  
+* Lines without a "~" character somewhere are treated as a comment.  
+
 ##### Config file:  
   
 from 0.095:  
