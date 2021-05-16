@@ -112,6 +112,6 @@ Copyright (c) 2019/2020/2021 J. v.Roos
 
 
 ##### Viruscheck at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1616379341
+[Check here](https://www.virustotal.com/gui/url/145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4/detection/u-145061d02b1aad7245f947cc0f42b0eef8a00150efd1031dc57856fc6c49e1b4-1621175160
 )  
 Use [CTRL] + Click to open in a new window! 

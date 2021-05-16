@@ -54,7 +54,7 @@ import java.io.{File => JFile}
 
 import de.jvr.pricecompare.GuiUpdateActor
 import de.jvr.pricecompare.GuiUpdateActor._
-//import de.jvr.pricecompare.PricecompareLogger._
+import de.jvr.pricecompare.PricecompareLogger._
 
 
 object Pricecompare extends JFXApp {
@@ -62,6 +62,8 @@ object Pricecompare extends JFXApp {
 	System.setProperty("file.encoding", "UTF-8")
 
 	val version = "0.106"
+	
+	log_trace("Version: " + version)
 	
 	val wrkDir = """C:\___jvr_work\___workspaces\____scala\pricecompare\src\main\scala\""" // shorten displayed lines " np2 correct
 	
@@ -548,8 +550,7 @@ object Pricecompare extends JFXApp {
 			if (lines.length > 0) linesUrl = Right(lines)
 		} catch {
 			case NonFatal(e@_) =>
-				s"Problem with URL-file $urlFile !"
-				//logger.error(e.toString)
+				linesUrl= Left(s"Problem with URL-file $urlFile !")
 		}
 		linesUrl
 	}

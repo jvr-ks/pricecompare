@@ -1,5 +1,5 @@
 /************************************************
-* pricecomparelogger.scala
+* pricecomparelog.scala
 *
 * License GNU GENERAL PUBLIC LICENSE see License.txt
 ************************************************/
@@ -7,36 +7,41 @@
 
 package de.jvr.pricecompare
 
-import ch.qos.logback.classic._
+import better.files._
+import java.io.{File => JFile}
+
+import com.typesafe.scalalogging._
 
 
 object PricecompareLogger {
 
-	val logger = com.typesafe.scalalogging.Logger("PricecompareLogger")
+	private val log = Logger(Pricecompare.getClass)
+	
+	val wrkDir = System.getProperty("user.dir") + JFile.separator
 	
 	def log_trace(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
 		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.trace(s"\n$msg line: ${line.value} in: ${p}\n")
+		log.trace(s"\n$msg line: ${line.value} in: ${p}\n")
 	}
 	
 	def log_debug(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
 		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.debug(s"\n$msg line: ${line.value} in: ${p}\n")
+		log.debug(s"\n$msg line: ${line.value} in: ${p}\n")
 	}
 
 	def log_info(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
 		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.info(s"\n$msg line: ${line.value} in: ${p}\n")
+		log.info(s"\n$msg line: ${line.value} in: ${p}\n")
 	}
 	
 	def log_warn(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
 		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.warn(s"\n$msg line: ${line.value} in: ${p}\n")
+		log.warn(s"\n$msg line: ${line.value} in: ${p}\n")
 	}
 	
 	def log_error(msg: String)(implicit line: sourcecode.Line, file: sourcecode.File) = {
 		val p = file.value.toFile.path.toString.replace(wrkDir,"[wrkDir]")
-		logger.error(s"\n\n$msg line: ${line.value} in: ${p}\n\n")
+		log.error(s"\n\n$msg line: ${line.value} in: ${p}\n\n")
 	}
 	
 }
