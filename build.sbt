@@ -1,3 +1,5 @@
+// only with Java 8 and SBT 1.2.8 (no JavaFX modules)
+
 
 ThisBuild / organization := "de.jvr"
 ThisBuild / scalaVersion := "2.13.3"
