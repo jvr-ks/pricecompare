@@ -1,0 +1,7 @@
+pricecompare.exe,yes
+application.conf,no
+alertsound.mp3,no
+priceextractors.txt,no
+pricecompare_urls.txt,no
+License.txt,no
+MITLicense.txt,no
